@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DeutschB2 Libre – Cours d'allemand gratuit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* Typographie Lufga : placez vos fichiers sous fonts/ (licence requise). Poppins sert de secours. */
+@font-face{font-family:"Lufga";font-weight:400;src:local("Lufga Regular"),local("Lufga"),url("fonts/Lufga-Regular.woff2") format("woff2"),url("fonts/Lufga-Regular.otf") format("opentype");}
+@font-face{font-family:"Lufga";font-weight:500;src:local("Lufga Medium"),url("fonts/Lufga-Medium.woff2") format("woff2"),url("fonts/Lufga-Medium.otf") format("opentype");}
+@font-face{font-family:"Lufga";font-weight:600;src:local("Lufga SemiBold"),url("fonts/Lufga-SemiBold.woff2") format("woff2"),url("fonts/Lufga-SemiBold.otf") format("opentype");}
+@font-face{font-family:"Lufga";font-weight:700;src:local("Lufga Bold"),url("fonts/Lufga-Bold.woff2") format("woff2"),url("fonts/Lufga-Bold.otf") format("opentype");}
+:root{--blue:#0b2d72;--blue2:#1d4fb8;--blue-soft:#e8eefb;--red:#e1261c;--red-soft:#fdecea;--white:#fff;--bg:#f6f8fd;--dark:#0e1a36;--muted:#52607f;--border:#d9e1f3}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Lufga","Poppins",system-ui,sans-serif;background:var(--bg);color:var(--dark);line-height:1.6}
+.tricolor{height:8px;background:linear-gradient(90deg,var(--blue) 0 33.3%,var(--white) 33.3% 66.6%,var(--red) 66.6%)}
+header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:48px 20px;position:relative}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:linear-gradient(90deg,#fff 0 50%,var(--red) 50%)}
+.container{max-width:1150px;margin:auto;padding:0 20px}
+.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2rem,4vw,3.3rem);margin:0 0 12px;font-weight:700}
+.hero p{font-size:1.05rem;max-width:720px;opacity:.95}
+.level-box{background:#fff;color:var(--blue);border-radius:18px;padding:24px;text-align:center;border-bottom:6px solid var(--red)}
+.level-box strong{display:block;font-size:3.2rem;color:var(--red);line-height:1.1}
+nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+nav .container{display:flex;gap:20px;align-items:center;min-height:62px;flex-wrap:wrap}
+nav a{color:var(--blue);text-decoration:none;font-weight:600}
+nav .brand{font-weight:700;font-size:1.1rem}nav .brand span{color:var(--red)}
+.progress-wrap{margin-left:auto;min-width:220px}
+.progress-label{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:5px;color:var(--muted)}
+.progress-bar{height:10px;border-radius:10px;overflow:hidden;background:#e4eaf7}
+.progress-value{height:100%;width:0;background:linear-gradient(90deg,var(--blue2),var(--red));transition:.3s}
+main{padding:40px 0 70px}
+h2{color:var(--blue)}
+.intro{background:#fff;border-left:6px solid var(--red);padding:20px;border-radius:10px;margin-bottom:32px;box-shadow:0 4px 12px rgba(11,45,114,.06)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 26px}
+.chip{background:#fff;color:var(--blue);border:1px solid var(--border);border-radius:30px;padding:8px 14px;font-size:.88rem;font-family:inherit}
+.chip:hover{border-color:var(--blue)}
+.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.level-section{margin-bottom:38px}
+.level-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:3px solid var(--blue);padding-bottom:8px;margin-bottom:18px}
+.level-head h3{margin:0;color:var(--blue);font-size:1.35rem}
+.level-desc{color:var(--muted);font-size:.93rem;flex:1}
+.level-count{font-size:.85rem;font-weight:600;color:var(--red)}
+.stars{color:var(--red);letter-spacing:2px}.stars .off{color:#d3dbee}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px}
+.course-card{background:#fff;border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:14px;padding:20px;box-shadow:0 4px 12px rgba(11,45,114,.06);display:flex;flex-direction:column}
+.course-card.done{border-top-color:var(--red);background:#fffafa}
+.course-top{display:flex;justify-content:space-between;align-items:center}
+.course-number{color:var(--red);font-weight:700;font-size:.85rem}
+.course-card h3{margin:8px 0;color:var(--blue);font-size:1.05rem}
+.course-card p{flex:1;color:var(--muted);font-size:.93rem}
+.best{font-size:.8rem;color:var(--blue2);font-weight:600;margin:0 0 10px}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-weight:600;font-size:.95rem;font-family:inherit}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--red)}
+.btn-audio{background:var(--red-soft);color:var(--red);margin:8px 0 20px}
+.back-link{background:var(--blue-soft);color:var(--blue)}
+.lesson-page{display:none;padding:34px 0 70px}.lesson-page.active{display:block}
+.lesson{background:#fff;border-radius:16px;padding:30px;border:1px solid var(--border);box-shadow:0 8px 24px rgba(11,45,114,.07)}
+.lesson-header{border-bottom:1px solid var(--border);margin-bottom:22px}
+.tag{display:inline-block;background:var(--blue-soft);color:var(--blue);padding:4px 10px;border-radius:30px;font-size:.85rem;font-weight:600;margin-right:6px}
+.lesson-text{background:#f6f8fd;padding:18px;border-radius:10px;border-left:5px solid var(--red)}
+.video-zone{margin:24px 0;background:var(--blue);color:#fff;min-height:200px;border-radius:12px;display:grid;place-items:center;text-align:center;padding:25px}
+.video-zone p{max-width:600px}
+.quiz{margin-top:30px;padding:22px;border:2px solid var(--blue);border-radius:14px}
+.quiz h3{margin:0 0 4px;color:var(--blue)}
+.q-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.9rem;color:var(--muted);margin-bottom:10px}
+.diff{font-weight:700;color:var(--red)}
+.dots{display:flex;gap:6px;margin:8px 0 18px}
+.dot{flex:1;height:8px;border-radius:6px;background:#e4eaf7}.dot.cur{background:var(--blue2)}.dot.ok{background:var(--blue)}.dot.ko{background:var(--red)}
+.q-text{font-weight:600;font-size:1.05rem;white-space:pre-line}
+.answer{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--border);color:var(--dark);margin:9px 0;font-weight:500}
+.answer:hover:not(:disabled){border-color:var(--blue)}
+.correct{background:var(--blue-soft)!important;border-color:var(--blue)!important;color:var(--blue)!important}
+.wrong{background:var(--red-soft)!important;border-color:var(--red)!important;color:#9c1710!important}
+.feedback{margin-top:12px;font-weight:600}
+.score-card{text-align:center;padding:16px}.score-card .big{font-size:3rem;font-weight:700;color:var(--red)}
+.lesson-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.complete-btn{background:var(--red);color:#fff}.complete-btn:hover{background:#b81c14}
+.nav-btn{background:var(--blue-soft);color:var(--blue)}.nav-btn:disabled{opacity:.4;cursor:default}
+.reset-btn{background:transparent;color:#c9d5ef;border:1px solid #3d57a0;margin-top:14px;font-size:.8rem;padding:7px 12px}
+footer{text-align:center;background:var(--blue);color:#dbe5fa;padding:30px 20px;border-top:6px solid var(--red)}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.progress-wrap{margin-left:0;width:100%}.lesson{padding:18px}}
+</style>
+</head>
+<body>
+<div class="tricolor"></div>
+<header id="siteHeader">
+  <div class="container hero">
+    <div>
+      <h1>DeutschB2 Libre</h1>
+      <p>105 cours gratuits d’allemand niveau B2, par difficulté croissante : grammaire, compréhension, vocabulaire professionnel, expression orale, audio, vidéo et 10 QCM par cours.</p>
+    </div>
+    <div class="level-box"><span>Niveau CECRL</span><strong>B2</strong><span>Intermédiaire avancé</span></div>
+  </div>
+</header>
+<nav>
+  <div class="container">
+    <a class="brand" href="#" onclick="goHome();return false;">Deutsch<span>B2</span> Libre</a>
+    <a href="#" onclick="goHome();return false;">Les cours</a>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Votre progression</span><span id="progressText">0 / 105</span></div>
+      <div class="progress-bar"><div class="progress-value" id="progressValue"></div></div>
+    </div>
+  </div>
+</nav>
+<main class="container" id="homePage">
+  <section class="intro"><strong>Objectif :</strong> développer les compétences nécessaires pour communiquer avec autonomie en allemand dans la vie quotidienne, les études et le travail. Le parcours est divisé en 5 niveaux de difficulté croissante (B2.1 à B2.5), chacun comprenant 21 cours. Chaque cours se termine par 10 QCM de difficulté croissante.</section>
+  <section id="cours">
+    <h2 id="programTitle">Programme B2</h2>
+    <div class="filters" id="filters"></div>
+    <div id="levelsContainer"></div>
+  </section>
+</main>
+<div class="container lesson-page" id="lessonPage">
+  <p><button class="back-link" onclick="goHome()">← Retour à tous les cours</button></p>
+  <section class="lesson">
+    <div class="lesson-header">
+      <span class="tag" id="lessonTag"></span><span class="stars" id="lessonStars"></span>
+      <h2 id="lessonTitle"></h2><p id="lessonObjective"></p>
+    </div>
+    <h3>Texte et compréhension</h3>
+    <div class="lesson-text" id="lessonText"></div>
+    <button class="btn-audio" onclick="playAudio()">🔊 Écouter le texte en allemand</button>
+    <div class="video-zone"><div><h3>🎬 Vidéo pédagogique</h3><p id="videoScript"></p><small>Vous pouvez insérer ici une vidéo MP4 ou YouTube/Vimeo dont vous possédez les droits.</small></div></div>
+    <div class="quiz" id="quiz"></div>
+    <div class="lesson-actions">
+      <button class="nav-btn" id="prevBtn" onclick="goRelative(-1)">← Cours précédent</button>
+      <button class="complete-btn" onclick="completeLesson()">✓ Marquer ce cours comme terminé</button>
+      <button class="nav-btn" id="nextBtn" onclick="goRelative(1)">Cours suivant →</button>
+    </div>
+  </section>
+</div>
+<footer>
+  <strong>DeutschB2 Libre</strong><br />Plateforme pédagogique gratuite – contenus originaux.<br />
+  <button class="reset-btn" onclick="resetProgress()">Réinitialiser ma progression</button>
+</footer>
+<script>
+/* Niveaux : 5 niveaux x 21 cours = 105 cours, difficulté croissante */
+    const LEVEL_SIZE = 21;
+    const levels = [
+      { name: "B2.1 – Fondations", stars: 1, desc: "Bases solides : subordonnées, temps, vocabulaire du quotidien et du travail." },
+      { name: "B2.2 – Consolidation", stars: 2, desc: "Konjunktiv II, infinitives, connecteurs et débats d’actualité." },
+      { name: "B2.3 – Autonomie", stars: 3, desc: "Style écrit, discours indirect, passif avancé et textes argumentatifs." },
+      { name: "B2.4 – Avancé", stars: 4, desc: "Structures denses, participiales, débat, négociation et analyse de presse." },
+      { name: "B2.5 – Maîtrise", stars: 5, desc: "Argumentation fine, registres, textes spécialisés et épreuves blanches." }
+    ];
+
+    /* Format : [titre, objectif, texte allemand, question, [réponses], index de la bonne réponse] */
+    const courses = [
+      /* ===== NIVEAU B2.1 – FONDATIONS ===== */
+      ["Argumenter et nuancer son opinion", "Exprimer un avis, introduire une réserve et défendre un argument.",
+        "Viele Menschen arbeiten heute teilweise von zu Hause. Meiner Ansicht nach bietet das Homeoffice zahlreiche Vorteile. Einerseits spart man Zeit, weil der Arbeitsweg wegfällt. Andererseits kann die Zusammenarbeit schwieriger werden, wenn das Team nur selten persönlich zusammenkommt.",
+        "Quelle expression introduit une opposition équilibrée ?", ["deshalb", "einerseits ... andererseits", "trotzdem nur", "wegen"], 1],
+      ["Passif et langage administratif", "Comprendre et employer la voix passive dans des situations formelles.",
+        "Die Unterlagen werden bis Freitag geprüft. Anschließend wird eine Entscheidung getroffen. Falls weitere Informationen benötigt werden, erhalten Sie eine schriftliche Mitteilung.",
+        "Quelle phrase est au passif ?", ["Wir prüfen die Unterlagen.", "Die Unterlagen werden geprüft.", "Sie prüft die Unterlagen.", "Ich habe geprüft."], 1],
+      ["Cause et conséquence : weil, da, deshalb", "Exprimer la cause et la conséquence avec précision.",
+        "Ich lerne jeden Tag Deutsch, weil ich nächstes Jahr in Berlin studieren möchte. Da die Prüfung schwer ist, übe ich viel. Deshalb höre ich täglich Podcasts.",
+        "Quelle conjonction envoie le verbe conjugué en fin de proposition ?", ["deshalb", "weil", "denn", "aber"], 1],
+      ["Verbes à préposition courants", "Utiliser warten auf, sich freuen über, sich interessieren für…",
+        "Ich interessiere mich sehr für Geschichte. Gestern habe ich lange auf den Bus gewartet. Jetzt freue ich mich auf das Wochenende, denn ich ärgere mich nicht mehr über die Arbeit.",
+        "Quelle préposition suit le verbe « warten » ?", ["auf", "für", "über", "an"], 0],
+      ["Déclinaison des adjectifs", "Accorder correctement les adjectifs après un article défini, indéfini ou sans article.",
+        "Der neue Kollege trägt einen grauen Anzug. Er arbeitet an einem interessanten Projekt. Mit freundlichen Worten begrüßt er die ganze Abteilung.",
+        "Complétez : « Sie wohnt in einem ___ Haus. »", ["klein", "kleine", "kleinem", "kleinen"], 3],
+      ["Parfait et prétérit", "Choisir le bon temps à l’oral et à l’écrit.",
+        "Gestern bin ich früh aufgestanden und habe gefrühstückt. Dann bin ich zur Arbeit gefahren. In einer Erzählung schreibt man oft: Es war ein warmer Tag, und die Sonne schien.",
+        "À l’écrit narratif, on emploie surtout :", ["le prétérit", "le futur", "l’impératif", "le Konjunktiv I"], 0],
+      ["Subordonnées avec dass et ob", "Rapporter une information ou poser une question indirecte.",
+        "Ich glaube, dass der Kurs sehr nützlich ist. Weißt du, ob die Prüfung schon im Mai stattfindet? Es ist wichtig, dass wir uns rechtzeitig anmelden.",
+        "Quelle conjonction s’emploie dans une question indirecte sans mot interrogatif ?", ["dass", "ob", "wenn", "damit"], 1],
+      ["Questions indirectes avec mot interrogatif", "Intégrer wann, wo, wie, warum dans une subordonnée.",
+        "Können Sie mir sagen, wann der Zug ankommt? Ich weiß nicht, warum das Büro heute geschlossen ist. Wissen Sie, wo ich ein Ticket kaufen kann?",
+        "Où se place le verbe conjugué dans « …, wann der Zug ankommt » ?", ["en deuxième position", "en première position", "en fin de proposition", "avant le sujet"], 2],
+      ["Vocabulaire du bureau", "Parler des tâches quotidiennes au travail.",
+        "Morgens lese ich zuerst meine E-Mails. Danach bereite ich die Besprechung vor und kopiere die Unterlagen. Am Nachmittag telefoniere ich mit Kunden und schreibe einen Bericht.",
+        "Que fait la personne en premier le matin ?", ["Elle écrit un rapport", "Elle lit ses e-mails", "Elle téléphone aux clients", "Elle copie des documents"], 1],
+      ["Études et formation", "Décrire un parcours scolaire et professionnel.",
+        "Nach dem Abitur habe ich ein Studium der Wirtschaft begonnen. Neben der Uni habe ich ein Praktikum bei einer Bank gemacht. Seit meinem Abschluss suche ich eine Stelle im Bereich Marketing.",
+        "« seit meinem Abschluss » indique :", ["une durée qui se poursuit jusqu’à maintenant", "un futur", "une obligation", "une comparaison"], 0],
+      ["Santé et rendez-vous médical", "Décrire des symptômes et prendre rendez-vous.",
+        "Seit drei Tagen habe ich Halsschmerzen und leichtes Fieber. Deshalb habe ich einen Termin bei meiner Hausärztin vereinbart. Sie empfiehlt mir, viel zu trinken und mich auszuruhen.",
+        "Que recommande la médecin ?", ["De courir", "De boire beaucoup et de se reposer", "De voyager", "De travailler plus"], 1],
+      ["Logement et déménagement", "Parler d’un appartement, d’un loyer et d’un contrat.",
+        "Die Wohnung hat drei Zimmer und einen kleinen Balkon. Die Miete beträgt 850 Euro warm, aber man muss eine Kaution von drei Monatsmieten zahlen. Der Umzug ist für Anfang des Monats geplant.",
+        "Que signifie « Kaution » ?", ["une caution", "un balcon", "un voisin", "une facture"], 0],
+      ["Voyages et transports", "Planifier un trajet et gérer les imprévus.",
+        "Mein Zug nach München fällt wegen eines Streiks aus. Deshalb muss ich eine Alternative suchen. Zum Glück kann ich meine Fahrkarte erstatten lassen oder mit einem Fernbus fahren.",
+        "Pourquoi le train est-il annulé ?", ["À cause d’une grève", "À cause de la neige", "À cause d’un accident", "Faute de passagers"], 0],
+      ["Verbes modaux au passé", "Employer dürfen, müssen, können, wollen au prétérit.",
+        "Als Kind durfte ich nicht lange fernsehen. Mit sechzehn musste ich schon im Café helfen, aber ich wollte unbedingt unabhängig sein. Damals konnte ich noch kein Englisch.",
+        "Quelle forme est un prétérit modal ?", ["ich muss", "ich musste", "ich werde müssen", "ich müsste"], 1],
+      ["Comparatifs et superlatifs nuancés", "Comparer avec je … desto, genauso … wie, am …sten.",
+        "Je länger ich in Deutschland wohne, desto besser verstehe ich die Kultur. Mein Bruder ist genauso alt wie meine Cousine, aber er ist am fleißigsten von uns allen.",
+        "« je länger …, desto besser » exprime :", ["une proportion croissante", "une impossibilité", "un ordre", "une cause unique"], 0],
+      ["Infinitif avec zu", "Construire des propositions infinitives simples.",
+        "Es ist wichtig, regelmäßig zu üben. Ich habe vergessen, dich anzurufen. Er hat angefangen, einen Roman zu schreiben.",
+        "Où place-t-on « zu » avec un verbe à particule séparable ?", ["Avant la particule", "Entre la particule et le verbe", "Après le verbe", "Il n’y a pas de zu"], 1],
+      ["Titres de presse", "Comprendre un titre d’article.",
+        "Preise steigen weiter. Regierung plant neues Gesetz. Tausende demonstrieren für mehr Klimaschutz. In Schlagzeilen fehlen oft Artikel und Hilfsverben.",
+        "Que manque-t-il souvent dans les titres ?", ["Les noms", "Les articles et les verbes auxiliaires", "Les chiffres", "Les adjectifs"], 1],
+      ["Sentiments et émotions", "Exprimer joie, déception, inquiétude.",
+        "Ich bin enttäuscht, weil das Konzert abgesagt wurde. Meine Schwester hingegen ist erleichtert, denn sie hatte ohnehin keine Lust. Ich mache mir Sorgen, dass die Stimmung zu Hause schlecht bleibt.",
+        "Quel mot exprime le soulagement ?", ["enttäuscht", "erleichtert", "wütend", "neugierig"], 1],
+      ["Achats en ligne", "Commander, retourner un article, comparer des offres.",
+        "Ich habe ein Paar Schuhe online bestellt, aber sie passen leider nicht. Man kann sie innerhalb von vierzehn Tagen kostenlos zurückschicken. Das Geld wird dann auf mein Konto überwiesen.",
+        "Combien de jours a-t-on pour retourner les chaussures ?", ["7", "14", "30", "3"], 1],
+      ["Expressions temporelles", "Employer seit, während, bevor, nachdem.",
+        "Bevor ich ins Büro gehe, trinke ich einen Kaffee. Während ich arbeite, höre ich leise Musik. Nachdem ich nach Hause gekommen bin, koche ich das Abendessen.",
+        "Quelle conjonction signifie « pendant que » ?", ["bevor", "während", "nachdem", "seit"], 1],
+      ["Bilan du niveau B2.1", "Réviser les bases avant de passer à la suite.",
+        "Zum Abschluss dieses Niveaus lohnt es sich, die wichtigsten Strukturen zu wiederholen: Nebensätze, Verben mit Präposition, Passiv und Zeitformen. Wer regelmäßig übt, macht schnell Fortschritte.",
+        "Quel conseil est donné ?", ["Éviter de réviser", "Répéter régulièrement les structures clés", "Apprendre seulement des listes", "Arrêter la grammaire"], 1],
+
+      /* ===== NIVEAU B2.2 – CONSOLIDATION ===== */
+      ["Connecteurs complexes", "Relier des idées avec obwohl, während, sodass et dennoch.",
+        "Obwohl die Reise gut vorbereitet war, gab es am Flughafen lange Wartezeiten. Der Flug hatte Verspätung, sodass viele Passagiere ihren Anschluss verpassten. Dennoch blieb die Stimmung im Team überraschend positiv.",
+        "« sodass » exprime principalement :", ["une conséquence", "une cause", "une opposition", "une condition"], 0],
+      ["Réunions et communication professionnelle", "Participer à une réunion et formuler des propositions.",
+        "Ich würde vorschlagen, dass wir zunächst die wichtigsten Punkte sammeln. Danach könnten wir gemeinsam entscheiden, welche Maßnahmen Priorität haben. Was halten Sie davon?",
+        "Quelle formule permet de proposer une idée poliment ?", ["Du musst das machen.", "Ich würde vorschlagen, dass ...", "Das ist falsch.", "Keine Diskussion."], 1],
+      ["Konjunktiv II : souhaits et hypothèses", "Exprimer une situation imaginaire ou un conseil.",
+        "Wenn ich mehr Zeit hätte, würde ich einen Intensivkurs besuchen. An deiner Stelle würde ich jeden Tag zwanzig Minuten Deutsch hören. Das wäre eine gute Vorbereitung auf die Prüfung.",
+        "« Wenn ich mehr Zeit hätte » exprime :", ["un ordre", "une hypothèse", "un fait passé", "une obligation"], 1],
+      ["Médias et information", "Parler de la fiabilité des sources et résumer une information.",
+        "Nachrichten verbreiten sich heute sehr schnell über soziale Netzwerke. Deshalb ist es wichtig, die Quelle zu überprüfen, bevor man einen Beitrag weiterleitet. Nicht jede Überschrift beschreibt den Inhalt eines Artikels korrekt.",
+        "Que faut-il faire avant de partager une information ?", ["Vérifier la source", "Changer le titre", "Ignorer le texte", "L’imprimer"], 0],
+      ["Environnement et consommation", "Discuter de consommation durable et de comportements écologiques.",
+        "Immer mehr Verbraucher achten darauf, regionale Produkte zu kaufen. Dadurch werden lange Transportwege vermieden. Allerdings sind nachhaltige Produkte manchmal teurer als vergleichbare Angebote.",
+        "Pourquoi acheter régional peut-il être positif ?", ["Les produits sont toujours gratuits.", "Les transports peuvent être réduits.", "Il n’y a plus de magasins.", "Les aliments deviennent électroniques."], 1],
+      ["Relativsätze avancés", "Utiliser les propositions relatives avec prépositions.",
+        "Das ist die Kollegin, mit der ich gestern gesprochen habe. Das Projekt, an dem wir seit Monaten arbeiten, wird nächste Woche vorgestellt.",
+        "Complétez : « Das ist das Thema, ___ wir sprechen. »", ["mit dem", "das", "dem wir", "wo"], 0],
+      ["Plus-que-parfait et nachdem", "Raconter des événements dans l’ordre chronologique.",
+        "Nachdem wir das Hotel erreicht hatten, gingen wir sofort zum Strand. Wir hatten den ganzen Tag im Zug gesessen und waren müde. Trotzdem wollten wir noch schwimmen.",
+        "Quel temps trouve-t-on dans la subordonnée après « nachdem » dans ce texte ?", ["Le plus-que-parfait", "Le futur", "Le Konjunktiv II", "L’impératif"], 0],
+      ["Konjunktiv II au passé", "Exprimer un regret ou une hypothèse irréelle passée.",
+        "Wenn ich früher angefangen hätte, wäre ich jetzt schon weiter. Hätte er besser aufgepasst, wäre der Fehler nicht passiert. Ich hätte mehr üben sollen.",
+        "Quelle phrase exprime un regret passé ?", ["Ich hätte mehr üben sollen.", "Ich übe mehr.", "Ich werde üben.", "Ich übte mehr."], 0],
+      ["Da- et wo- avec prépositions", "Remplacer un groupe prépositionnel.",
+        "Worauf wartest du? – Ich warte darauf, dass der Chef anruft. Woran denkst du? – Ich denke daran, den Job zu wechseln. Davon habe ich noch niemandem erzählt.",
+        "Quelle forme interrogative correspond à « über etwas sprechen » ?", ["Worüber", "Wovon", "Womit", "Wozu"], 0],
+      ["um … zu, ohne … zu, (an)statt … zu", "Exprimer le but, l’absence et la substitution.",
+        "Er ging ins Büro, ohne zu frühstücken. Sie lernt viel, um die Prüfung zu bestehen. Statt ein Taxi zu nehmen, ging sie zu Fuß.",
+        "« ohne … zu » exprime :", ["un but", "l’absence d’une action", "une comparaison", "une condition"], 1],
+      ["Participes employés comme adjectifs", "Utiliser le Partizip I et II comme adjectifs.",
+        "Der lachende Junge hält ein geöffnetes Buch in der Hand. Die steigenden Preise sind ein viel diskutiertes Thema. Das geplante Treffen wurde verschoben.",
+        "Quel mot est un participe présent employé comme adjectif ?", ["geöffnetes", "lachende", "geplante", "diskutiertes"], 1],
+      ["Le futur pour exprimer une supposition", "Utiliser werden pour supposer.",
+        "Er wird wohl noch im Meeting sein. Sie wird die Nachricht schon gelesen haben. Das wird nicht einfach werden, aber wir werden es schaffen.",
+        "« Er wird wohl noch im Meeting sein » exprime :", ["une supposition", "un ordre", "un souvenir", "une interdiction"], 0],
+      ["Conjonctions doubles", "sowohl … als auch, weder … noch, nicht nur … sondern auch, entweder … oder.",
+        "Sie spricht nicht nur Englisch, sondern auch Spanisch. Weder das Hotel noch das Restaurant war besonders teuer. Wir fahren entweder mit dem Zug oder mit dem Auto.",
+        "« weder … noch » signifie :", ["ni … ni", "soit … soit", "non seulement … mais aussi", "tantôt … tantôt"], 0],
+      ["Particules modales", "Nuancer ses phrases avec doch, ja, mal, eben, halt.",
+        "Komm doch mal vorbei! Das ist ja unglaublich! Du kannst eben nicht alles haben. Die Prüfung ist halt schwer.",
+        "Quel rôle jouent ces petits mots ?", ["Ils nuancent le ton et l’attitude du locuteur", "Ils indiquent le temps", "Ils remplacent le verbe", "Ils forment le passif"], 0],
+      ["Candidature et entretien d’embauche", "Se présenter et valoriser son profil.",
+        "Sehr geehrte Frau Weber, hiermit bewerbe ich mich um die Stelle als Projektleiter. Ich verfüge über fünf Jahre Berufserfahrung und bin teamfähig. Über eine Einladung zu einem persönlichen Gespräch würde ich mich freuen.",
+        "Quelle formule conclut poliment la lettre ?", ["Über eine Einladung würde ich mich freuen.", "Ruf mich an.", "Ich will den Job.", "Bis später."], 0],
+      ["Télétravail et organisation", "Parler de l’équilibre entre vie professionnelle et vie privée.",
+        "Viele Beschäftigte schätzen die flexiblen Arbeitszeiten im Homeoffice. Allerdings verschwimmen die Grenzen zwischen Beruf und Privatleben leicht. Deshalb vereinbaren manche Firmen feste Erreichbarkeitszeiten.",
+        "Quel risque est mentionné ?", ["Les salaires baissent.", "La frontière entre pro et privé devient floue.", "Les bureaux sont trop grands.", "Le matériel est interdit."], 1],
+      ["Éducation et système scolaire", "Comparer des systèmes éducatifs.",
+        "In Deutschland entscheidet sich nach der Grundschule, ob ein Kind aufs Gymnasium, die Realschule oder eine andere Schulform wechselt. Kritiker meinen, dass diese frühe Auswahl die Chancengleichheit einschränkt. Befürworter betonen dagegen die individuelle Förderung.",
+        "Que critiquent les détracteurs ?", ["Le manque d’écoles", "L’orientation précoce", "Les vacances", "Les uniformes"], 1],
+      ["Technologie au quotidien", "Parler d’applications et d’appareils.",
+        "Smartphones begleiten uns durch den ganzen Tag. Wir bezahlen kontaktlos, navigieren per App und kommunizieren in Sekunden. Gleichzeitig wächst die Sorge, dass persönliche Daten nicht ausreichend geschützt werden.",
+        "Quelle inquiétude est exprimée ?", ["La protection des données", "Le manque de batteries", "Le prix des cartes", "La langue des applications"], 0],
+      ["Culture et loisirs", "Recommander un film, un livre, une exposition.",
+        "Letzte Woche habe ich eine Ausstellung über moderne Fotografie besucht. Besonders beeindruckt hat mich eine Serie von Schwarz-Weiß-Bildern aus dem Alltag. Ich kann den Besuch jedem empfehlen, der sich für Kunst interessiert.",
+        "Qu’est-ce qui a particulièrement marqué la personne ?", ["Une série de photos en noir et blanc", "Un film", "Un concert", "Une pièce de théâtre"], 0],
+      ["Alimentation et mode de vie", "Débattre de régimes et d’habitudes.",
+        "Immer mehr Menschen verzichten teilweise auf Fleisch. Sie begründen das mit dem Tierwohl, der Gesundheit oder dem Klimaschutz. Trotzdem gehört für viele ein gemeinsames Essen zur Tradition.",
+        "Quel argument n’est PAS cité ?", ["Le bien-être animal", "La santé", "Le climat", "Le prix des restaurants"], 3],
+      ["Bilan du niveau B2.2", "Consolider les acquis avant les structures plus formelles.",
+        "In diesem Abschnitt haben Sie Nebensätze, den Konjunktiv II und Infinitivkonstruktionen geübt. Wenn Sie sich unsicher fühlen, wiederholen Sie zuerst die Kapitel mit den meisten Fehlern.",
+        "Que faire en cas d’hésitation ?", ["Passer directement au niveau suivant", "Réviser d’abord les chapitres avec le plus d’erreurs", "Abandonner", "Ne lire que les titres"], 1],
+
+      /* ===== NIVEAU B2.3 – AUTONOMIE ===== */
+      ["Nominalisation et style écrit", "Comprendre un style plus formel et nominalisé.",
+        "Die Verbesserung der Sprachkenntnisse erfordert regelmäßiges Training. Durch die Teilnahme an Diskussionen kann eine deutliche Erweiterung des Wortschatzes erreicht werden.",
+        "Quel nom correspond au verbe « verbessern » ?", ["die Verbesserung", "der Verbesserer", "verbessert", "verbesserlich"], 0],
+      ["Réclamations et service client", "Rédiger une réclamation claire et courtoise.",
+        "Sehr geehrte Damen und Herren, leider entspricht das gelieferte Produkt nicht der Beschreibung. Ich bitte Sie daher um eine schnelle Lösung und um eine Rückmeldung innerhalb der nächsten sieben Tage.",
+        "Quelle formule est appropriée dans une réclamation formelle ?", ["Hallo, das ist schlimm!", "Ich bitte Sie um eine Rückmeldung.", "Du bist schuld.", "Mach schnell!"], 1],
+      ["Discours indirect : introduction au Konjunktiv I", "Rapporter les paroles de quelqu’un.",
+        "Der Sprecher sagte, die Firma habe im letzten Jahr Gewinn gemacht. Er erklärte, man wolle neue Mitarbeiter einstellen. Die Journalistin fragte, ob das Unternehmen auch ins Ausland expandiere.",
+        "Quel mode sert surtout au discours indirect ?", ["Le Konjunktiv I", "L’impératif", "Le futur II", "Le passif"], 0],
+      ["Konjunktiv I dans la presse", "Reconnaître les formes de sein, haben, können.",
+        "Laut Ministerium sei die Lage stabil. Der Minister betonte, es gebe keinen Grund zur Sorge. Kritiker behaupten, die Zahlen seien geschönt worden.",
+        "Quelle forme est un Konjunktiv I de « sein » ?", ["sei", "wäre", "war", "ist"], 0],
+      ["Passif d’état et passif avec modaux", "Distinguer processus et résultat.",
+        "Das Fenster wird geschlossen. Das Fenster ist geschlossen. Die Dokumente müssen bis Montag abgegeben werden. Der Antrag kann online gestellt werden.",
+        "Quelle phrase décrit un résultat (Zustandspassiv) ?", ["Das Fenster wird geschlossen.", "Das Fenster ist geschlossen.", "Das Fenster schließt sich.", "Man schließt das Fenster."], 1],
+      ["Alternatives au passif", "Varier avec man, sich lassen, sein + zu, -bar.",
+        "Die Aufgabe lässt sich leicht lösen. Der Antrag ist bis Freitag einzureichen. Dieses Problem ist lösbar. Man kann die Daten online einsehen.",
+        "« Die Aufgabe lässt sich leicht lösen » signifie :", ["La tâche peut être résolue facilement", "La tâche est trop facile pour être faite", "Il faut laisser la tâche", "Personne ne résout la tâche"], 0],
+      ["Prépositions avec le génitif", "wegen, trotz, während, aufgrund, innerhalb, außerhalb.",
+        "Aufgrund des schlechten Wetters wurde das Fest abgesagt. Trotz der hohen Kosten entschied sich die Gemeinde für den Neubau. Innerhalb einer Woche erhalten Sie eine Antwort.",
+        "« Trotz der hohen Kosten » exprime :", ["une opposition", "une cause", "un but", "un lieu"], 0],
+      ["Adverbes de liaison avancés", "zudem, folglich, demnach, andernfalls, immerhin.",
+        "Die Mieten in der Innenstadt steigen. Folglich ziehen viele Familien in die Vororte. Zudem hat sich die Verkehrsanbindung verbessert. Andernfalls könnten sich viele das Pendeln nicht leisten.",
+        "« folglich » signifie :", ["par conséquent", "pourtant", "avant", "comme"], 0],
+      ["Rédiger un e-mail formel", "Structurer demande, motif et formule de politesse.",
+        "Sehr geehrter Herr Schmidt, ich schreibe Ihnen, weil ich Informationen zu Ihrem Sprachkurs benötige. Könnten Sie mir bitte mitteilen, wann der nächste Kurs beginnt? Vielen Dank im Voraus und freundliche Grüße.",
+        "Quelle formule de clôture est typique d’un e-mail formel ?", ["Mit freundlichen Grüßen", "Tschüss", "Bis morgen", "Lieber Herr Schmidt"], 0],
+      ["Texte d’opinion (Erörterung)", "Construire introduction, arguments et conclusion.",
+        "Zunächst stellt sich die Frage, ob Handys in Schulen verboten werden sollten. Dafür spricht, dass der Unterricht weniger gestört wird. Dagegen spricht, dass digitale Medien auch beim Lernen helfen können. Abschließend lässt sich sagen, dass klare Regeln sinnvoller sind als ein generelles Verbot.",
+        "Quel mot introduit la conclusion ?", ["Zunächst", "Dafür", "Dagegen", "Abschließend"], 3],
+      ["Décrire un graphique", "Présenter des chiffres et des évolutions.",
+        "Die Grafik zeigt, wie sich die Zahl der Radfahrer in den letzten zehn Jahren entwickelt hat. Zwischen 2015 und 2020 stieg der Anteil von 12 auf 19 Prozent. Danach blieb er nahezu konstant.",
+        "Que décrit le graphique après 2020 ?", ["Une forte baisse", "Une stabilité", "Une hausse rapide", "Une disparition"], 1],
+      ["Migration et société", "Parler d’intégration et de diversité.",
+        "Viele Menschen verlassen ihre Heimat, um bessere Lebensbedingungen zu finden. Für die Aufnahmegesellschaft bedeutet das Chancen, aber auch Herausforderungen. Sprachkurse und Arbeitsmöglichkeiten gelten als Schlüssel zur Integration.",
+        "Qu’est-ce qui est considéré comme clé de l’intégration ?", ["La distance", "La langue et le travail", "Le tourisme", "La publicité"], 1],
+      ["Économie et monde du travail", "Parler d’inflation, de salaires et de chômage.",
+        "Die Inflation hat die Kaufkraft vieler Haushalte geschwächt. Gewerkschaften fordern deshalb höhere Löhne, während Arbeitgeber vor steigenden Kosten warnen. Gleichzeitig suchen zahlreiche Branchen dringend Fachkräfte.",
+        "Que demandent les syndicats ?", ["Moins d’heures sans salaire", "De meilleurs salaires", "Plus d’inflation", "La fermeture des entreprises"], 1],
+      ["Santé publique", "Discuter de prévention et de système de soins.",
+        "Prävention spielt eine zentrale Rolle im Gesundheitssystem. Regelmäßige Bewegung, ausgewogene Ernährung und Vorsorgeuntersuchungen können viele Krankheiten verhindern. Dennoch fehlt es vielerorts an Ärztinnen und Ärzten auf dem Land.",
+        "Quel problème est évoqué à la campagne ?", ["Trop de médecins", "Une pénurie de médecins", "Trop d’hôpitaux", "Pas de maladies"], 1],
+      ["Sciences et recherche", "Décrire une expérience et ses résultats.",
+        "Die Forscher untersuchten, wie sich Schlafmangel auf die Konzentration auswirkt. Die Teilnehmenden, die weniger als sechs Stunden schliefen, machten deutlich mehr Fehler. Die Ergebnisse legen nahe, dass ausreichend Schlaf für die Leistungsfähigkeit unerlässlich ist.",
+        "Quel est le résultat de l’étude ?", ["Moins de sommeil = plus d’erreurs", "Plus de sommeil = moins d’envie", "Aucun effet", "Les participants sont partis"], 0],
+      ["Urbanisme et mobilité", "Comparer transports et politiques urbaines.",
+        "Viele Großstädte versuchen, den Autoverkehr zu reduzieren. Dafür werden Radwege ausgebaut und der öffentliche Nahverkehr gestärkt. Skeptiker bezweifeln jedoch, dass diese Maßnahmen allein ausreichen.",
+        "Que font les villes pour réduire la circulation automobile ?", ["Elles ferment les écoles", "Elles développent pistes cyclables et transports publics", "Elles interdisent les vélos", "Elles construisent plus de parkings"], 1],
+      ["Tourisme durable", "Évaluer l’impact et la responsabilité du voyageur.",
+        "Der Massentourismus belastet Natur und Anwohner. Manche Regionen führen deshalb Besucherlimits oder Gebühren ein. Reisende können einen Beitrag leisten, indem sie lokale Anbieter unterstützen und Flüge vermeiden.",
+        "Comment le voyageur peut-il aider ?", ["En soutenant des prestataires locaux", "En voyageant plus loin", "En gaspillant l’eau", "En restant à l’hôtel"], 0],
+      ["Groupes nominaux étendus", "Comprendre les compléments placés avant le nom.",
+        "Die seit Jahren steigenden Mietpreise belasten Familien mit geringem Einkommen. Der von der Stadt geplante Neubau soll Abhilfe schaffen. Das für nächstes Jahr angekündigte Programm ist umstritten.",
+        "Que qualifie « von der Stadt geplante » ?", ["Le programme", "Le bâtiment neuf (Neubau)", "Les familles", "Le loyer"], 1],
+      ["Locutions verbales formelles (Funktionsverbgefüge)", "Reconnaître les tournures verbales du langage soutenu.",
+        "Der Vorstand trifft heute eine Entscheidung. Wir nehmen Ihre Kritik zur Kenntnis. Die Verhandlungen kommen bald zum Abschluss. Dabei steht das Unternehmen unter Druck.",
+        "« zur Kenntnis nehmen » signifie à peu près :", ["prendre connaissance de", "ignorer", "oublier", "refuser"], 0],
+      ["Faux amis et pièges lexicaux", "Éviter les confusions entre le français et l’allemand.",
+        "Das Wort „Gift“ bedeutet auf Deutsch nicht Geschenk, sondern Gift. „Bekommen“ heißt erhalten, nicht werden. Auch „aktuell“ meint „derzeit“ und nicht „tatsächlich“.",
+        "Que signifie « bekommen » ?", ["devenir", "recevoir", "apporter", "venir"], 1],
+      ["Bilan du niveau B2.3", "Faire le point sur le style écrit et le discours indirect.",
+        "Dieser Abschnitt behandelte das Passiv, den Konjunktiv I, Nominalisierungen und das Schreiben formeller Texte. Prüfen Sie, welche Strukturen Ihnen noch schwerfallen, und üben Sie diese gezielt mit eigenen Beispielsätzen.",
+        "Comment s’entraîner selon le texte ?", ["Avec ses propres phrases d’exemple", "En copiant sans lire", "En évitant les difficultés", "En changeant de langue"], 0],
+
+      /* ===== NIVEAU B2.4 – AVANCÉ ===== */
+      ["Préparation à l’expression orale", "Structurer une présentation orale B2.",
+        "Zunächst möchte ich das Thema vorstellen. Danach werde ich die Vor- und Nachteile erläutern. Zum Schluss fasse ich meine wichtigsten Argumente zusammen und beantworte gern Ihre Fragen.",
+        "Quelle expression annonce la conclusion ?", ["Zunächst", "Danach", "Zum Schluss", "Außerdem"], 2],
+      ["Participes étendus (Partizipialattribute)", "Décoder des phrases denses.",
+        "Die im vergangenen Jahr von der Regierung beschlossenen Maßnahmen zeigen erste Wirkung. Ein von Experten entwickeltes Modell soll die Prognosen verbessern.",
+        "Le groupe « im vergangenen Jahr von der Regierung beschlossenen » qualifie :", ["Maßnahmen", "Wirkung", "Modell", "Prognosen"], 0],
+      ["Concession et restriction", "obgleich, wenngleich, zwar … aber, so sehr … auch.",
+        "Zwar ist das Angebot günstig, doch die Qualität lässt zu wünschen übrig. Wenngleich viele Experten zustimmen, bleibt die Maßnahme umstritten. So sehr er sich auch bemühte, er konnte die Frist nicht einhalten.",
+        "« zwar … doch » exprime :", ["une concession", "un but", "une durée", "une condition"], 0],
+      ["Politesse avancée et irréel du passé", "Formuler requêtes et reproches avec le Konjunktiv II.",
+        "Hätten Sie vielleicht einen Moment Zeit? Ich wäre Ihnen dankbar, wenn Sie mir die Unterlagen schicken könnten. Hättest du mir das früher gesagt, hätte ich anders entschieden.",
+        "« Ich wäre Ihnen dankbar, wenn … » est une formule :", ["très polie", "très familière", "un ordre", "une insulte"], 0],
+      ["Constructions participiales", "Reformuler avec des participes.",
+        "Von der Aufgabe überfordert, bat er um Hilfe. Das Kind, laut lachend, rannte über die Wiese. Nach Hause gekommen, schaltete sie den Fernseher ein.",
+        "Quel groupe est participial ?", ["Von der Aufgabe überfordert", "er bat um Hilfe", "über die Wiese", "den Fernseher ein"], 0],
+      ["Nominalisation des connecteurs", "Transformer des subordonnées en groupes nominaux.",
+        "Weil die Nachfrage stieg, erhöhte die Firma die Preise. Wegen der steigenden Nachfrage erhöhte die Firma die Preise. Obwohl die Kosten hoch waren, investierte sie weiter. Trotz der hohen Kosten investierte sie weiter.",
+        "« Wegen der steigenden Nachfrage » remplace :", ["weil die Nachfrage stieg", "obwohl die Nachfrage stieg", "damit die Nachfrage steigt", "falls die Nachfrage steigt"], 0],
+      ["Débat : pour et contre", "Argumenter et réfuter.",
+        "Befürworter der Vier-Tage-Woche argumentieren, dass sie die Zufriedenheit erhöht. Gegner halten dagegen, dass viele Branchen nicht flexibel genug sind. Ein Kompromiss könnte darin bestehen, die Regelung zunächst zu testen.",
+        "Quel compromis est proposé ?", ["L’interdire", "La tester d’abord", "Doubler les horaires", "Supprimer les vacances"], 1],
+      ["Résumer un texte", "Reformuler l’essentiel en peu de mots.",
+        "Eine gute Zusammenfassung enthält nur die Hauptaussagen und verzichtet auf Beispiele und persönliche Meinung. Man formuliert in eigenen Worten und verwendet das Präsens. Beginnen Sie mit Thema, Autor und Kernaussage.",
+        "Quel temps utilise-t-on pour résumer ?", ["Le présent", "Le plus-que-parfait", "Le futur II", "Uniquement le prétérit"], 0],
+      ["Analyser un article de presse", "Repérer thèse, arguments et intention.",
+        "In seinem Kommentar vertritt der Autor die These, dass die Energiewende zu langsam vorankommt. Er stützt sich dabei auf Statistiken und Expertenaussagen. Sein Ton ist kritisch, aber sachlich.",
+        "Quel est le ton de l’auteur ?", ["Critique mais factuel", "Ironique et hostile", "Enthousiaste", "Indifférent"], 0],
+      ["Éthique et intelligence artificielle", "Discuter responsabilité, biais et régulation.",
+        "Künstliche Intelligenz kann Prozesse beschleunigen, wirft aber ethische Fragen auf. Wer haftet, wenn ein Algorithmus eine falsche Entscheidung trifft? Zudem besteht die Gefahr, dass Vorurteile aus den Trainingsdaten übernommen werden.",
+        "Quel risque est mentionné ?", ["La reproduction de préjugés", "Le manque d’électricité", "La disparition d’Internet", "Trop de papier"], 0],
+      ["Politique et institutions", "Décrire le fonctionnement d’un système politique.",
+        "In Deutschland wird der Bundestag alle vier Jahre gewählt. Der Bundeskanzler bestimmt die Richtlinien der Politik, während der Bundespräsident vor allem repräsentative Aufgaben erfüllt. Die Länder wirken über den Bundesrat an der Gesetzgebung mit.",
+        "Qui a surtout un rôle représentatif ?", ["Le chancelier", "Le président fédéral", "Le Bundesrat", "Un juge"], 1],
+      ["Histoire et mémoire", "Parler d’événements historiques.",
+        "Der Fall der Berliner Mauer im Jahr 1989 war ein Wendepunkt der europäischen Geschichte. Die Wiedervereinigung folgte ein Jahr später. Bis heute beschäftigen die Folgen die Gesellschaft, etwa bei Löhnen und Renten.",
+        "Quand la réunification a-t-elle eu lieu selon le texte ?", ["En 1990", "En 1989 le même jour", "En 1995", "En 1980"], 0],
+      ["Littérature et lecture", "Présenter un livre et donner un avis.",
+        "Der Roman erzählt die Geschichte einer Familie über drei Generationen. Besonders gelungen ist die Sprache, die poetisch, aber nie kitschig wirkt. Allerdings ist die Handlung stellenweise vorhersehbar.",
+        "Quel défaut est mentionné ?", ["L’intrigue parfois prévisible", "La langue banale", "Le livre est trop court", "Il n’y a pas de personnages"], 0],
+      ["Psychologie et comportement", "Expliquer motivations et habitudes.",
+        "Gewohnheiten entstehen, indem Handlungen häufig wiederholt werden. Wer ein neues Verhalten dauerhaft etablieren möchte, sollte klein anfangen und feste Auslöser nutzen. Rückschläge sind normal und kein Grund aufzugeben.",
+        "Que conseille le texte ?", ["Commencer petit", "Tout changer en un jour", "Éviter les routines", "Abandonner après un échec"], 0],
+      ["Climat et énergie", "Comparer sources d’énergie et politiques.",
+        "Erneuerbare Energien wie Wind und Sonne gewinnen an Bedeutung. Ihr Ausbau erfordert jedoch leistungsfähige Netze und Speicher. Ob der Ausstieg aus fossilen Brennstoffen rechtzeitig gelingt, ist umstritten.",
+        "Qu’exige le développement des énergies renouvelables ?", ["Des réseaux et du stockage performants", "Moins de soleil", "Plus de charbon", "Moins d’habitants"], 0],
+      ["Verbes de communication soutenus", "betonen, einräumen, bemängeln, hervorheben.",
+        "Die Rednerin betonte, dass Bildung Priorität haben müsse. Der Direktor räumte ein, dass Fehler gemacht wurden. Der Prüfer bemängelte die fehlende Struktur der Arbeit.",
+        "« einräumen » signifie :", ["admettre", "interdire", "ignorer", "nier"], 0],
+      ["Ironie, nuances et sous-entendus", "Repérer ce qui n’est pas dit explicitement.",
+        "„Na, das hast du ja wieder großartig gemacht!“, sagte sie, als er das Glas fallen ließ. Ihr Tonfall verriet, dass sie das keineswegs lobend meinte. Ironie erkennt man oft am Kontext und an der Betonung.",
+        "Que signifie la phrase de la femme ?", ["Un vrai compliment", "Un reproche ironique", "Une question", "Un ordre poli"], 1],
+      ["Expressions idiomatiques", "Comprendre et employer des tournures imagées.",
+        "Das ist nicht mein Bier. Ich habe Schwein gehabt. Wir sitzen alle im selben Boot. Man sollte Redewendungen nicht wörtlich übersetzen.",
+        "« Ich habe Schwein gehabt » signifie :", ["J’ai eu de la chance", "J’ai mangé du porc", "J’ai eu peur", "Je suis fatigué"], 0],
+      ["Présentation avec support visuel", "Introduire une diapositive, un chiffre clé, une transition.",
+        "Auf dieser Folie sehen Sie die Entwicklung der Verkaufszahlen. Besonders auffällig ist der Anstieg im dritten Quartal. Damit komme ich zum nächsten Punkt.",
+        "« Damit komme ich zum nächsten Punkt » est :", ["une transition", "une conclusion finale", "une question", "une excuse"], 0],
+      ["Négociation professionnelle", "Faire des contre-propositions.",
+        "Wir könnten Ihnen einen Rabatt von fünf Prozent anbieten, sofern Sie die Bestellung verdoppeln. Das wäre uns allerdings zu wenig. Wie wäre es, wenn wir uns in der Mitte treffen?",
+        "« sofern » exprime :", ["une condition", "une cause", "un lieu", "un souhait"], 0],
+      ["Bilan du niveau B2.4", "Vérifier sa maîtrise de l’argumentation et des structures denses.",
+        "Sie haben nun komplexe Satzstrukturen, Partizipialkonstruktionen und Argumentationstechniken kennengelernt. Versuchen Sie jetzt, einen eigenen kurzen Kommentar zu schreiben und laut zu präsentieren.",
+        "Que conseille-t-on de faire maintenant ?", ["Écrire un petit commentaire et le présenter", "Arrêter d’étudier", "Ne faire que lire", "Éviter l’oral"], 0],
+
+      /* ===== NIVEAU B2.5 – MAÎTRISE ===== */
+      ["Argumentation complexe", "Hiérarchiser arguments, contre-arguments et nuances.",
+        "Auf den ersten Blick wirkt der Vorschlag überzeugend. Bei näherer Betrachtung zeigt sich jedoch, dass er mehrere Schwächen aufweist: Zum einen sind die Kosten unklar, zum anderen fehlt eine langfristige Perspektive. Dennoch sollte man ihn nicht vorschnell ablehnen.",
+        "Que signifie « Bei näherer Betrachtung » ?", ["En y regardant de plus près", "Au premier abord", "Par hasard", "En cachette"], 0],
+      ["Registres de langue", "Passer du familier au formel.",
+        "Informell: „Kannst du mir mal kurz helfen?“ Formell: „Wären Sie so freundlich, mir kurz behilflich zu sein?“ Der Kontext bestimmt, welcher Ton angemessen ist.",
+        "Quelle version est formelle ?", ["Kannst du mir mal kurz helfen?", "Wären Sie so freundlich, mir kurz behilflich zu sein?", "Hilf mir!", "Hey, hilf mal!"], 1],
+      ["Inversion et mise en relief", "Utiliser topicalisation, inversion et tournures d’emphase.",
+        "Nie zuvor hat die Stadt so viele Besucher gesehen. Besonders beeindruckt hat mich die Atmosphäre. Gerade deshalb lohnt sich der Besuch. Es ist die Vielfalt, die diesen Ort so besonders macht.",
+        "Que fait la phrase « Nie zuvor hat die Stadt … » ?", ["Une mise en relief par inversion", "Une question", "Un ordre", "Un souhait"], 0],
+      ["Enchaînements logiques sophistiqués", "Structurer un texte long avec cohérence.",
+        "Einerseits gilt Wachstum als Voraussetzung für Wohlstand. Andererseits stößt es an ökologische Grenzen. Daraus folgt, dass neue Modelle diskutiert werden müssen, die ohne ständige Expansion auskommen.",
+        "« Daraus folgt » introduit :", ["une conclusion", "un exemple", "une question", "un souvenir"], 0],
+      ["Style journalistique", "Repérer ellipses, citations et raccourcis.",
+        "Die Koalition ringt um einen Kompromiss. Der Haushalt, so heißt es aus Regierungskreisen, stehe auf der Kippe. Nach stundenlangen Verhandlungen: kein Durchbruch.",
+        "« so heißt es aus Regierungskreisen » indique :", ["une source attribuée", "une certitude absolue", "un souvenir", "un ordre"], 0],
+      ["Texte scientifique", "Maîtriser vocabulaire abstrait et prudence rédactionnelle.",
+        "Die Ergebnisse deuten darauf hin, dass ein Zusammenhang zwischen beiden Faktoren besteht. Ein kausaler Beleg steht jedoch noch aus. Weitere Studien sind erforderlich, um die Hypothese zu überprüfen.",
+        "« deuten darauf hin » exprime :", ["une prudence", "une certitude", "un refus", "un ordre"], 0],
+      ["Droit et administration", "Comprendre une clause ou une notification.",
+        "Der Vermieter ist verpflichtet, Mängel innerhalb angemessener Frist zu beseitigen. Kommt er dieser Pflicht nicht nach, kann der Mieter die Miete mindern. Widerspruch ist schriftlich einzulegen.",
+        "Que peut faire le locataire si le bailleur ne répare pas ?", ["Réduire le loyer", "Doubler le loyer", "Déménager gratuitement", "Rien"], 0],
+      ["Mondialisation", "Peser avantages et risques.",
+        "Die Globalisierung hat Handelsbarrieren abgebaut und Märkte verbunden. Sie bringt Konsumenten günstige Produkte, setzt aber lokale Produzenten unter Druck. Lieferketten erweisen sich in Krisen als verwundbar.",
+        "Quelle vulnérabilité est citée ?", ["Les chaînes d’approvisionnement", "Les écoles", "Les musées", "La météo"], 0],
+      ["Numérisation de la société", "Évaluer opportunités et fractures.",
+        "Die Digitalisierung erleichtert den Zugang zu Wissen und Dienstleistungen. Gleichzeitig droht eine digitale Kluft, wenn ältere oder einkommensschwache Menschen abgehängt werden. Daher fordern Experten Bildungsangebote für alle Altersgruppen.",
+        "Que signifie « digitale Kluft » ?", ["fracture numérique", "vitesse numérique", "école numérique", "argent numérique"], 0],
+      ["Arts et critiques", "Écrire une critique argumentée.",
+        "Die Inszenierung überzeugt durch ein reduziertes Bühnenbild und starke schauspielerische Leistungen. Weniger gelungen ist das Tempo, das im zweiten Akt spürbar nachlässt. Insgesamt ein sehenswerter, wenn auch nicht perfekter Abend.",
+        "Quel est le jugement global ?", ["Plutôt positif avec des réserves", "Totalement négatif", "Sans opinion", "Hors sujet"], 0],
+      ["Bonheur et réussite", "Discuter de valeurs et de choix de vie.",
+        "Was bedeutet Erfolg? Für die einen ist es beruflicher Aufstieg, für die anderen Zeit für Familie und Freunde. Studien legen nahe, dass Beziehungen stärker zur Zufriedenheit beitragen als Besitz.",
+        "Selon les études, qu’est-ce qui contribue le plus à la satisfaction ?", ["Les relations", "La possession", "Le prix", "Le bureau"], 0],
+      ["Discours rhétorique", "Reconnaître figures et stratégies de persuasion.",
+        "Liebe Mitbürgerinnen und Mitbürger, wir stehen an einem Scheideweg. Entweder wir handeln jetzt, oder wir zahlen später einen weitaus höheren Preis. Es liegt an uns, die Zukunft zu gestalten.",
+        "Quelle stratégie est utilisée ?", ["Une alternative dramatique pour mobiliser", "Un humour absurde", "Une définition neutre", "Une simple liste"], 0],
+      ["Écrire un commentaire (Kommentar)", "Prendre position avec des arguments.",
+        "Das geplante Tempolimit wird kontrovers diskutiert. Meiner Überzeugung nach überwiegen die Vorteile: weniger Unfälle, weniger Lärm, geringere Emissionen. Wer dagegen argumentiert, übersieht, dass Sicherheit Vorrang vor Zeitgewinn haben sollte.",
+        "Quel est le point de vue de l’auteur ?", ["Favorable à la limitation de vitesse", "Contre toute règle", "Neutre", "Hors sujet"], 0],
+      ["Compréhension orale : stratégies", "Prendre des notes efficacement.",
+        "Beim Hörverstehen hilft es, vor dem Hören die Aufgaben zu lesen und Stichwörter zu notieren. Konzentrieren Sie sich auf Zahlen, Namen und Verbindungswörter. Lassen Sie sich nicht von unbekannten Wörtern ablenken.",
+        "Que faut-il faire avant d’écouter ?", ["Lire les consignes", "Fermer les yeux", "Éteindre le son", "Écrire le dictionnaire"], 0],
+      ["Compréhension écrite : les pièges", "Distinguer informations vraies, fausses et absentes.",
+        "Achten Sie auf Formulierungen wie „nur“, „immer“ oder „niemals“. Antworten mit solchen absoluten Begriffen sind oft falsch. Prüfen Sie außerdem, ob eine Information im Text tatsächlich steht oder nur plausibel klingt.",
+        "Pourquoi se méfier de « immer » et « niemals » ?", ["Ils sont souvent trop absolus", "Ils sont toujours corrects", "Ils ne sont jamais utilisés", "Ce sont des noms"], 0],
+      ["Expression écrite : plan et cohérence", "Organiser un texte d’environ 150 mots.",
+        "Beginnen Sie mit einer kurzen Einleitung. Nennen Sie im Hauptteil zwei bis drei Argumente mit Beispielen. Beenden Sie den Text mit einem Fazit und achten Sie auf Absätze und Konnektoren.",
+        "Combien d’arguments met-on dans le corps du texte ?", ["Deux à trois", "Un seul", "Dix", "Aucun"], 0],
+      ["Erreurs fréquentes des francophones", "Corriger les fautes typiques.",
+        "Häufige Fehler sind falsche Artikel, die Wortstellung im Nebensatz und der Gebrauch von „seit“ mit dem Perfekt. Richtig ist: Ich lerne seit zwei Jahren Deutsch. Falsch ist: Ich habe seit zwei Jahren Deutsch gelernt.",
+        "Quelle phrase est correcte ?", ["Ich lerne seit zwei Jahren Deutsch.", "Ich habe seit zwei Jahren Deutsch gelernt.", "Ich lernte seit zwei Jahren.", "Ich werde seit zwei Jahren lernen."], 0],
+      ["Expression orale : interaction spontanée", "Réagir, relancer, reformuler.",
+        "Entschuldigung, meinen Sie damit, dass ...? Das sehe ich etwas anders. Könnten Sie das bitte genauer erklären? Wenn ich Sie richtig verstehe, geht es Ihnen um ...",
+        "Quelle formule sert à reformuler ?", ["Wenn ich Sie richtig verstehe, ...", "Mir egal.", "Auf Wiedersehen.", "Ich schlafe."], 0],
+      ["Épreuve blanche : compréhension", "S’entraîner sur un texte et ses questions.",
+        "Immer mehr Betriebe bieten Weiterbildungen an, um Fachkräfte zu halten. Mitarbeitende können während der Arbeitszeit Kurse besuchen. Dadurch steigen Motivation und Bindung ans Unternehmen. Kleine Firmen klagen allerdings über die Kosten.",
+        "Quel inconvénient est cité ?", ["Le coût pour les petites entreprises", "Moins de motivation", "Trop de congés", "La fermeture des écoles"], 0],
+      ["Épreuve blanche : expression", "Rédiger une réponse structurée à un sujet.",
+        "Thema: „Sollte Fernunterricht den Präsenzunterricht ersetzen?“ Ein guter Text nennt zunächst die Position, gewichtet dann Vor- und Nachteile und endet mit einer begründeten Schlussfolgerung.",
+        "Que doit contenir un bon texte ?", ["Position, pour/contre, conclusion", "Seulement des questions", "Une recette", "Un poème"], 0],
+      ["Simulation d’examen B2", "Réviser les stratégies de compréhension et d’expression.",
+        "Bei einer Prüfung ist es sinnvoll, zuerst alle Aufgaben genau zu lesen. Markieren Sie Schlüsselwörter und achten Sie auf Synonyme. Falls Sie eine Antwort nicht sofort kennen, gehen Sie zur nächsten Aufgabe weiter.",
+        "Quelle stratégie est recommandée ?", ["Répondre au hasard immédiatement", "Lire attentivement les consignes", "Ignorer les mots-clés", "Abandonner après une question difficile"], 1]
+    ];
+
+const STORAGE_KEY="deutschB2Completed_v2", SCORE_KEY="deutschB2Scores_v1";
+let currentCourse=0,currentFilter="all",completed=[],scores={},quiz=null,attempt=0;
+try{completed=JSON.parse(localStorage.getItem(STORAGE_KEY))||[]}catch(e){completed=[]}
+try{scores=JSON.parse(localStorage.getItem(SCORE_KEY))||{}}catch(e){scores={}}
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const starsHTML=n=>{let h="";for(let i=1;i<=5;i++)h+=i<=n?"★":'<span class="off">★</span>';return h};
+const levelOf=i=>Math.floor(i/LEVEL_SIZE);
+
+/* ===== Génération des 10 QCM (difficulté croissante) ===== */
+const LET="A-Za-zÄÖÜäöüß", WRE=new RegExp("["+LET+"]+","g");
+const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const shuf=(a,r)=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const sents=s=>s.split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(x=>x.split(/\s+/).length>=4);
+const words=s=>s.match(WRE)||[];
+const blank=(s,w,n="_____")=>s.replace(new RegExp("(^|[^"+LET+"])"+w+"(?!["+LET+"])"),"$1"+n);
+const FW=["weil","dass","ob","wenn","obwohl","während","bevor","nachdem","deshalb","trotzdem","denn","aber","damit","sodass","dennoch","zwar","allerdings","zudem","folglich","wegen","trotz","aufgrund","ohne","statt","für","auf","mit","von","über","nach","seit","bei","durch","gegen"];
+const ENDS=["ten","te","en","et","st","t","e","n"];
+const DIFF=["Très facile","Très facile","Facile","Facile","Moyen","Moyen","Difficile","Difficile","Très difficile","Expert"];
+
+function buildQuiz(idx,att){
+  const r=rng(idx*7919+13+att*101), c=courses[idx], lv=levelOf(idx);
+  const mine=sents(c[2]), used=new Set();
+  const others=[];courses.forEach((x,i)=>{if(i!==idx&&Math.abs(levelOf(i)-lv)<=1)others.push(...sents(x[2]))});
+  const pool=[];courses.forEach((x,i)=>{if(i!==idx)pool.push(...words(x[2]))});
+  const pick=a=>a[Math.floor(r()*a.length)];
+  const mk=(q,ok,bad)=>{const d=[...new Set(bad)].filter(x=>x!==ok).slice(0,3);const o=shuf([ok,...d],r);return{q,o,a:o.indexOf(ok)}};
+  const fresh=()=>{const l=mine.filter(s=>!used.has(s));const s=l.length?pick(l):pick(mine);used.add(s);return s};
+  const near=w=>{const cap=w[0]===w[0].toUpperCase();return shuf(pool.filter(p=>p!==w&&(p[0]===p[0].toUpperCase())===cap&&Math.abs(p.length-w.length)<=2),r)};
+  const cloze=(pred,mkBad,label)=>{
+    for(let t=0;t<12;t++){const s=fresh(),w=words(s).filter(x=>pred(x)&&!usedW.has(x));if(!w.length)continue;const x=pick(w),bad=mkBad(x);
+      if(bad.length>=2){usedW.add(x);return mk(label+"\n« "+blank(s,x)+" »",x,bad)}}return null};
+  const swaps=s=>{const t=s.split(/\s+/),out=[];for(let i=1;i<t.length-1;i++){const u=t.slice();[u[i],u[i+1]]=[u[i+1],u[i]];const z=u.join(" ");if(z!==s)out.push(z)}return shuf(out,r)};
+  const usedW=new Set();
+  const qs=[];
+  /* 1 – QCM d'origine du cours */
+  const o=shuf(c[4].map((_,i)=>i),r);qs.push({q:c[3],o:o.map(i=>c[4][i]),a:o.indexOf(c[5])});
+  /* 2 – Reconnaître une phrase du texte */
+  {const s=fresh();qs.push(mk("Quelle phrase figure dans le texte du cours ?",s,shuf(others,r).slice(0,3)))}
+  /* 3 – Compléter avec un mot de contenu */
+  qs.push(cloze(w=>w.length>=7,near,"Quel mot complète la phrase du texte ?"));
+  /* 4 – Mot de liaison / préposition */
+  qs.push(cloze(w=>FW.includes(w.toLowerCase()),w=>shuf(FW.filter(f=>f!==w.toLowerCase()),r),"Quel petit mot manque dans cette phrase ?"));
+  /* 5 – Ordre des mots (mélange complet) */
+  {const s=fresh(),t=s.replace(/[.!?]$/,"").split(/\s+/),p=s.slice(-1),bad=[];
+   for(let k=0;k<12&&bad.length<3;k++){const z=shuf(t,r).join(" ")+p;if(z!==s)bad.push(z)}
+   qs.push(mk("Quelle phrase est correctement construite ?",s,bad))}
+  /* 6 – Forme correcte (terminaison) */
+  qs.push(cloze(w=>/^[a-zäöüß]/.test(w)&&w.length>=5&&ENDS.some(e=>w.endsWith(e)),w=>{const e=ENDS.find(e=>w.endsWith(e)),st=w.slice(0,-e.length);return shuf(ENDS.filter(x=>x!==e).map(x=>st+x),r)},"Choisissez la forme correcte du mot manquant :"));
+  /* 7 – Place des mots (inversions de deux mots voisins) */
+  {let s=fresh();for(let t=0;t<8&&swaps(s).length<3;t++)s=fresh();qs.push(mk("Quelle phrase du texte est exacte, sans inversion de mots ?",s,swaps(s)))}
+  /* 8 – Mot remplacé dans la phrase */
+  {const s=fresh(),w=words(s).filter(x=>x.length>=4),bad=[];
+   for(let k=0;k<12&&bad.length<3&&w.length;k++){const x=pick(w),n=near(x)[0]||pick(pool);const z=blank(s,x,n);if(z!==s)bad.push(z)}
+   qs.push(mk("Quelle phrase est identique à celle du texte ?",s,bad))}
+  /* 9 – Forme correcte, 2e mot */
+  qs.push(cloze(w=>/^[a-zäöüß]/.test(w)&&w.length>=5&&ENDS.some(e=>w.endsWith(e)),w=>{const e=ENDS.find(e=>w.endsWith(e)),st=w.slice(0,-e.length);return shuf(ENDS.filter(x=>x!==e).map(x=>st+x),r)},"Quelle forme est correcte dans cette phrase ?"));
+  /* 10 – Double lacune */
+  {let res=null;for(let t=0;t<12&&!res;t++){const s=fresh(),w=words(s).filter(x=>x.length>=4);if(w.length<3)continue;
+     let a=pick(w),b=pick(w.filter(x=>x!==a));if(!b)continue;if(s.indexOf(a)>s.indexOf(b))[a,b]=[b,a];
+     const g=blank(blank(s,a,"[1]"),b,"[2]");
+     res=mk("Quels mots complètent [1] et [2] ?\n« "+g+" »",a+" / "+b,[b+" / "+a,a+" / "+(near(b)[0]||pick(pool)),(near(a)[0]||pick(pool))+" / "+b])}
+   qs.push(res)}
+  /* sécurité : si un générateur a échoué, on complète avec une question de repli */
+  return qs.map((q,i)=>q||mk("Quelle phrase figure dans le texte du cours ?",fresh(),shuf(others,r).slice(0,3)));
+}
+
+/* ===== Affichage ===== */
+function renderFilters(){
+  const chips=[`<button class="chip ${currentFilter==="all"?"active":""}" onclick="setFilter('all')">Tous les niveaux</button>`];
+  levels.forEach((l,i)=>chips.push(`<button class="chip ${currentFilter===String(i)?"active":""}" onclick="setFilter('${i}')">${l.name}</button>`));
+  document.getElementById("filters").innerHTML=chips.join("");
+}
+function setFilter(v){currentFilter=v;renderCourses()}
+function renderCourses(){
+  document.getElementById("programTitle").textContent=`Programme B2 – ${courses.length} cours en ${levels.length} niveaux`;
+  renderFilters();let html="";
+  levels.forEach((lvl,li)=>{
+    if(currentFilter!=="all"&&currentFilter!==String(li))return;
+    const start=li*LEVEL_SIZE,end=Math.min(start+LEVEL_SIZE,courses.length);let done=0,cards="";
+    for(let i=start;i<end;i++){
+      const c=courses[i],d=completed.includes(i);if(d)done++;
+      cards+=`<article class="course-card ${d?"done":""}"><div class="course-top"><span class="course-number">COURS ${String(i+1).padStart(3,"0")}</span><span class="stars" title="Difficulté ${lvl.stars}/5">${starsHTML(lvl.stars)}</span></div>
+        <h3>${c[0]}</h3><p>${c[1]}</p>${scores[i]!=null?`<div class="best">Meilleur QCM : ${scores[i]}/10</div>`:""}
+        <button class="btn-primary" onclick="openLesson(${i})">${d?"Revoir le cours ✓":"Commencer le cours"}</button></article>`;
+    }
+    html+=`<div class="level-section"><div class="level-head"><h3>${lvl.name}</h3><span class="stars">${starsHTML(lvl.stars)}</span><span class="level-count">${done} / ${end-start} terminés</span><span class="level-desc">${lvl.desc}</span></div><div class="course-grid">${cards}</div></div>`;
+  });
+  document.getElementById("levelsContainer").innerHTML=html;updateProgress();
+}
+
+/* ===== Navigation : accueil / page de cours (hash #cours-N) ===== */
+function openLesson(i){location.hash="cours-"+(i+1)}
+function goHome(){if(location.hash)location.hash="";else route()}
+function goRelative(s){const t=currentCourse+s;if(t>=0&&t<courses.length)openLesson(t)}
+function route(){
+  const m=location.hash.match(/^#cours-(\d+)$/),home=document.getElementById("homePage"),page=document.getElementById("lessonPage"),hdr=document.getElementById("siteHeader");
+  if("speechSynthesis"in window)speechSynthesis.cancel();
+  if(m&&+m[1]>=1&&+m[1]<=courses.length){
+    home.style.display="none";hdr.style.display="none";page.classList.add("active");showLesson(+m[1]-1);
+  }else{
+    page.classList.remove("active");home.style.display="";hdr.style.display="";renderCourses();
+  }
+  window.scrollTo(0,0);
+}
+function showLesson(i){
+  currentCourse=i;attempt=0;const c=courses[i],l=levels[levelOf(i)];
+  document.getElementById("lessonTag").textContent=`Cours ${i+1} / ${courses.length} · ${l.name}`;
+  document.getElementById("lessonStars").innerHTML=starsHTML(l.stars);
+  document.getElementById("lessonTitle").textContent=c[0];
+  document.getElementById("lessonObjective").textContent=c[1];
+  document.getElementById("lessonText").textContent=c[2];
+  document.getElementById("videoScript").textContent=`Vidéo suggérée : présentation orale de 2 à 4 minutes sur le thème « ${c[0]} », avec les expressions principales de la leçon.`;
+  document.getElementById("prevBtn").disabled=i===0;
+  document.getElementById("nextBtn").disabled=i===courses.length-1;
+  startQuiz();
+}
+
+/* ===== QCM : 10 questions, une à la fois ===== */
+function startQuiz(){quiz={qs:buildQuiz(currentCourse,attempt),i:0,score:0,res:[],done:false};renderQuiz()}
+function renderQuiz(){
+  const box=document.getElementById("quiz"),n=quiz.qs.length;
+  const dots=quiz.qs.map((_,k)=>`<div class="dot ${quiz.res[k]===1?"ok":quiz.res[k]===0?"ko":k===quiz.i?"cur":""}"></div>`).join("");
+  if(quiz.i>=n){
+    const s=quiz.score,msg=s>=9?"Excellent ! Sehr gut!":s>=7?"Très bien, vous maîtrisez ce cours.":s>=5?"Pas mal : relisez le texte puis réessayez.":"Relisez le cours et retentez le QCM.";
+    if(scores[currentCourse]==null||s>scores[currentCourse]){scores[currentCourse]=s;save(SCORE_KEY,scores)}
+    if(s>=7&&!completed.includes(currentCourse)){completed.push(currentCourse);save(STORAGE_KEY,completed);updateProgress()}
+    box.innerHTML=`<h3>QCM terminé</h3><div class="dots">${dots}</div><div class="score-card"><div class="big">${s} / ${n}</div><p>${msg}</p>
+      <button class="btn-primary" onclick="attempt++;startQuiz()">Refaire un QCM (nouvelles variantes)</button></div>`;return;
+  }
+  const q=quiz.qs[quiz.i];
+  box.innerHTML=`<h3>QCM du cours</h3><div class="q-meta"><span>Question ${quiz.i+1} / ${n}</span><span class="diff">Difficulté : ${DIFF[quiz.i]} <span class="stars">${starsHTML(Math.ceil((quiz.i+1)/2))}</span></span></div>
+    <div class="dots">${dots}</div><p class="q-text">${q.q}</p>
+    <div>${q.o.map((t,k)=>`<button class="answer" onclick="checkAnswer(${k})">${String.fromCharCode(65+k)}. ${t}</button>`).join("")}</div>
+    <p class="feedback" id="feedback"></p><div id="nextQ"></div>`;
+}
+function checkAnswer(k){
+  const q=quiz.qs[quiz.i];if(quiz.res[quiz.i]!=null)return;
+  document.querySelectorAll(".answer").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("correct");if(j===k&&k!==q.a)b.classList.add("wrong")});
+  const ok=k===q.a;quiz.res[quiz.i]=ok?1:0;if(ok)quiz.score++;
+  document.getElementById("feedback").textContent=ok?"✓ Bonne réponse !":"✗ Réponse incorrecte. La bonne réponse est indiquée en bleu.";
+  document.getElementById("nextQ").innerHTML=`<p><button class="btn-primary" onclick="quiz.i++;renderQuiz()">${quiz.i===quiz.qs.length-1?"Voir mon score":"Question suivante →"}</button></p>`;
+}
+function playAudio(){
+  if(!("speechSynthesis"in window)){alert("La synthèse vocale n’est pas disponible dans ce navigateur.");return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(courses[currentCourse][2]);u.lang="de-DE";u.rate=.85;speechSynthesis.speak(u);
+}
+function completeLesson(){
+  if(!completed.includes(currentCourse)){completed.push(currentCourse);save(STORAGE_KEY,completed)}
+  updateProgress();alert("Cours marqué comme terminé. Sehr gut!");
+}
+function resetProgress(){
+  if(confirm("Voulez-vous vraiment effacer toute votre progression ?")){completed=[];scores={};save(STORAGE_KEY,completed);save(SCORE_KEY,scores);route()}
+}
+function updateProgress(){
+  document.getElementById("progressText").textContent=`${completed.length} / ${courses.length}`;
+  document.getElementById("progressValue").style.width=`${completed.length/courses.length*100}%`;
+}
+window.addEventListener("hashchange",route);
+route();
+</script>
+</body>
+</html>
